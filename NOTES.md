@@ -35,47 +35,43 @@
 |------|--------|-------------|
 | `CLAUDE.md` | ✅ Done | Project rules — auto-loaded into AI context |
 | `NOTES.md` | ✅ Done | This file |
-| `requirements.txt` | ✅ Done | flask, python-dotenv (Gemini to be added) |
-| `app.py` | ✅ Done | Flask app, `/` route, `/api/generate` placeholder |
+| `requirements.txt` | ✅ Done | flask, python-dotenv, matplotlib, numpy |
+| `app.py` | ✅ Done | Flask app, `/api/generate` + `/figures/<file>` routes |
 | `templates/index.html` | ✅ Done | Full UI with MathJax, sidebar, input/output panels |
 | `static/css/style.css` | ✅ Done | Dark theme, card layout, topic tags, spinner |
 | `static/js/app.js` | ✅ Done | Fetch, MathJax re-render, category selector, Ctrl+Enter |
-| `output/figures/` | ✅ Done | Empty dir, ready for matplotlib PNGs |
+| `models.py` | ✅ Done | Question, TopicNode, FigureSpec, TopicBreakdown dataclasses |
+| `topic_graph.py` | ✅ Done | 31-topic knowledge graph, BFS traversal, difficulty derivation |
+| `geometry_renderer.py` | ✅ Done | matplotlib renderer: triangle, circle, quad, coord plane |
+| `math_formatter.py` | ✅ Done | ensure_latex(): wraps expressions + single letters in $...$ |
+| `output/figures/` | ✅ Done | Generated PNGs served at /figures/<filename> |
 
 ### Files NOT Yet Created
 | File | Description |
 |------|-------------|
-| `models.py` | Dataclasses: Question, TopicNode, FigureSpec |
-| `topic_graph.py` | Hardcoded math knowledge graph + traversal logic |
-| `geometry_renderer.py` | Matplotlib renderer — takes FigureSpec, outputs PNG |
-| `math_formatter.py` | LaTeX formatting helpers |
 | `agent.py` | Orchestrates the two Gemini AI calls |
-| `.env` | GEMINI_API_KEY (not committed) |
+| `.env` | GEMINI_API_KEY (never committed) |
 
 ---
 
 ## Current App Behavior
-- `/api/generate` returns **hardcoded placeholder data** (no real logic yet)
-- UI fully renders: topic tags, prerequisite tree, generated question with MathJax
-- Figure display is wired up but hidden (no figure yet)
+- `/api/generate` returns **hardcoded placeholder data** (triangle question)
+- Triangle renders with: STIX math fonts, right-angle marker, correct a/b/c convention
+  (side `a` opposite vertex A, `b` opposite B, `c` opposite C)
+- Angle labels render as proper LaTeX math ($x^2+2x$, $-7x$)
+- Single letter side labels (a, b, c) auto-wrapped in $...$ → math italic
 - Run: `python app.py` → open `http://127.0.0.1:5000`
 
 ---
 
-## Build Order (Remaining Steps)
+## Build Order (Remaining)
 
-### Step 2 — Data Models & Knowledge Graph (pure logic)
-- `models.py`: `Question`, `TopicNode`, `FigureSpec` dataclasses
-- `topic_graph.py`: hardcoded topic nodes with prerequisites, graph traversal
-
-### Step 3 — Geometry & Math Rendering (pure logic)
-- `geometry_renderer.py`: triangle, circle, quadrilateral, coordinate plane
-- `math_formatter.py`: LaTeX wrapping, equation detection
-
-### Step 4 — AI Integration (Gemini)
-- `agent.py`: Call A (topic ID) + Call B (question generation)
-- Wire into `app.py` `/api/generate` endpoint
-- Replace placeholder with real output
+### Step 4 — AI Integration (Gemini) ← NEXT
+- `agent.py`: Call A (topic identification, Gemini Flash, structured JSON)
+- `agent.py`: Call B (question generation, returns question + figure_spec JSON)
+- Wire into `app.py` to replace placeholder
+- Add `google-generativeai` to requirements.txt
+- Create `.env` with GEMINI_API_KEY
 
 ---
 
