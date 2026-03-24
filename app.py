@@ -41,9 +41,9 @@ def generate():
             {"vertex": "C", "label": "$-7x$"},
         ],
         "side_labels": [
-            {"from": "A", "to": "B", "label": "b"},
-            {"from": "A", "to": "C", "label": "a"},
-            {"from": "B", "to": "C", "label": "c"},
+            {"from": "B", "to": "C", "label": "a"},   # opposite A
+            {"from": "A", "to": "C", "label": "b"},   # opposite B
+            {"from": "A", "to": "B", "label": "c"},   # opposite C
         ],
         "right_angle_at": "A",
         "extra_labels": [],
