@@ -13,6 +13,7 @@ import uuid
 
 from models import FigureSpec, AngleLabel, SideLabel
 from math_formatter import ensure_latex
+import coordinate_renderer
 
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output", "figures")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -74,8 +75,15 @@ def render_figure(spec: FigureSpec, filename: str | None = None) -> str:
         "triangle":         _render_polygon,
         "quadrilateral":    _render_polygon,
         "circle":           _render_circle,
-        "coordinate_plane": _render_coordinate_plane,
     }
+
+    # Coordinate plane is handled by its dedicated renderer
+    if spec.type == "coordinate_plane":
+        return coordinate_renderer.render_coord_figure(
+            spec.__dict__ | {"type": "coordinate_plane"},
+            filename,
+        )
+
     fn = dispatch.get(spec.type)
     if fn is None:
         raise ValueError(f"Unknown figure type: {spec.type!r}")
