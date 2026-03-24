@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Question Generator</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$']],
+                displayMath: [['$$', '$$']],
+            },
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea'] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="logo-icon">∑</span>
+            <span class="logo-text">MathGen</span>
+        </div>
+        <nav class="nav">
+            <a href="#" class="nav-item active">Generate</a>
+            <a href="#" class="nav-item disabled">History</a>
+            <a href="#" class="nav-item disabled">Topics</a>
+        </nav>
+        <div class="category-selector">
+            <p class="section-label">Category</p>
+            <label class="radio-item">
+                <input type="radio" name="category" value="SAT" checked> SAT
+            </label>
+            <label class="radio-item">
+                <input type="radio" name="category" value="AMC"> AMC
+            </label>
+            <label class="radio-item">
+                <input type="radio" name="category" value="olympiad"> Olympiad
+            </label>
+        </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+
+        <header class="page-header">
+            <h1>Math Question Generator</h1>
+            <p class="subtitle">Paste a sample question to generate similar practice problems</p>
+        </header>
+
+        <!-- Input panel -->
+        <section class="input-panel">
+            <label class="input-label" for="question-input">Sample Question</label>
+            <textarea
+                id="question-input"
+                class="question-input"
+                placeholder="e.g. In a triangle, one angle is 90°, the second angle is x² + 2x, and the third is −7x. Find x."
+                rows="4"
+            ></textarea>
+            <div class="input-actions">
+                <button id="generate-btn" class="btn btn-primary">
+                    Generate Similar Question
+                </button>
+                <button id="clear-btn" class="btn btn-ghost">Clear</button>
+            </div>
+        </section>
+
+        <!-- Output area (hidden until response) -->
+        <section class="output-area" id="output-area" style="display:none;">
+
+            <!-- Topic breakdown -->
+            <div class="card" id="topics-card">
+                <h2 class="card-title">Topics Identified</h2>
+                <div class="topic-section">
+                    <p class="topic-group-label">Immediate topics needed</p>
+                    <div id="immediate-topics" class="topic-list"></div>
+                </div>
+                <div class="topic-section">
+                    <p class="topic-group-label">If stuck — prerequisite breakdown</p>
+                    <div id="prereq-topics" class="prereq-tree"></div>
+                </div>
+            </div>
+
+            <!-- Generated question -->
+            <div class="card" id="question-card">
+                <h2 class="card-title">Generated Question</h2>
+                <div id="generated-question" class="question-display"></div>
+
+                <!-- Figure placeholder — shown when geometry is present -->
+                <div id="figure-container" class="figure-container" style="display:none;">
+                    <img id="figure-img" src="" alt="Geometric figure">
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Loading state -->
+        <div class="loading" id="loading" style="display:none;">
+            <div class="spinner"></div>
+            <p>Generating question…</p>
+        </div>
+
+        <!-- Error state -->
+        <div class="error-box" id="error-box" style="display:none;"></div>
+
+    </main>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
