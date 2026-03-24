@@ -17,6 +17,12 @@ from math_formatter import ensure_latex
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output", "figures")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
+# ── Math font — STIX matches LaTeX Computer Modern appearance ──────────────────
+matplotlib.rcParams.update({
+    "mathtext.fontset": "stix",
+    "font.family":      "STIXGeneral",
+})
+
 # ── Colour palette ─────────────────────────────────────────────────────────────
 C_FILL   = "#dce8fb"    # polygon fill
 C_EDGE   = "#2c3e50"    # polygon edges
@@ -98,10 +104,10 @@ def _render_polygon(spec: FigureSpec, filepath: str):
 
     # ── vertex names (A, B, C …) ────────────────────────────────────────────
     for key, coord in zip(keys, coords):
-        outward = _unit(coord - centroid) * 0.28
+        outward = _unit(coord - centroid) * 0.32
         ax.text(coord[0] + outward[0], coord[1] + outward[1], key,
                 ha="center", va="center",
-                fontsize=13, fontweight="bold", color=C_VERTEX, zorder=4)
+                fontsize=15, fontweight="bold", color=C_VERTEX, zorder=4)
 
     # ── right-angle marker ──────────────────────────────────────────────────
     if spec.right_angle_at and spec.right_angle_at in spec.vertices:
@@ -135,7 +141,7 @@ def _render_polygon(spec: FigureSpec, filepath: str):
         label = ensure_latex(angle_map[key])
         ax.text(pos[0], pos[1], label,
                 ha="center", va="center",
-                fontsize=10, color=C_ANGLE, zorder=4)
+                fontsize=13, color=C_ANGLE, zorder=4)
 
     # ── side labels ─────────────────────────────────────────────────────────
     for sl in spec.side_labels:
@@ -149,7 +155,7 @@ def _render_polygon(spec: FigureSpec, filepath: str):
         label = ensure_latex(sl.label)
         ax.text(pos[0], pos[1], label,
                 ha="center", va="center",
-                fontsize=10, color=C_SIDE, zorder=4)
+                fontsize=13, color=C_SIDE, zorder=4)
 
     # ── extra labels ────────────────────────────────────────────────────────
     for el in spec.extra_labels:
